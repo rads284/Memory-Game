@@ -23,6 +23,7 @@
   var arr1=arr.slice();
   arr.push.apply(arr,arr1);
   var s;
+  var score=0;
   function shuffle(arr)
   {
     var j,temp;
@@ -37,7 +38,8 @@
   function makeboard(arr)
   {
     shuffle(arr);
-    var x,i,y,score=0;;
+    var x,i,y;
+    score=0;
     var board=document.getElementById("board");
     for(i=0;i<arr.length;i++)
     {
