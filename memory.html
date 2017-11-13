@@ -19,12 +19,30 @@
 </html>
 
 <script>
-  var arr=["snapchat.png","facebook.png","twitter.png","linkedin.png","chrome.png","safari.jpeg","opera.png","firefox.jpeg","accenture.jpeg","deloitte.png","microsoft.jpg","apple.png","kpmg.png","skype.png","youtube.png","ibm.png","quora.png","intel.jpeg","blender.jpeg","adobe.jpeg","photoshop.png","nevidia.jpeg","google.jpeg","flipkart.jpeg","amazon.png","googleplus.png","tcs.png","ubuntu.jpeg","mckinsey.png","infosys.png","ie.png","apache.png"];
-  var arr1=arr.slice();
-  arr.push.apply(arr,arr1);
-  var s;
-  var scr=0;
-  function shuffle(arr)
+
+var arr=["snapchat.png","facebook.png","twitter.png","linkedin.png","chrome.png","safari.jpeg","opera.png","firefox.jpeg","accenture.jpeg","deloitte.png","microsoft.jpg","apple.png","kpmg.png","skype.png","youtube.png","ibm.png","quora.png","intel.jpeg","blender.jpeg","adobe.jpeg","photoshop.png","nevidia.jpeg","google.jpeg","flipkart.jpeg","amazon.png","googleplus.png","tcs.png","ubuntu.jpeg","mckinsey.png","infosys.png","ie.png","apache.png"];
+var c=[4,6,8];
+var choice=1,s,one,two,scr=0,count=0,prev=-1;
+
+
+function menu() {
+  choice=(prompt("Choose Game Difficulty! \n 1. Beginner \n 2. Intermediate \n 3. Hard"));
+  switch (choice) {
+    case '1':
+      arr=arr.slice(0,8);
+      break;
+    case '2':
+      arr=arr.slice(0,18);
+      break;
+    case '3':
+      break;
+    default:
+      alert("Invalid Input");
+      menu();
+  }
+  makeboard(arr);
+}
+function shuffle(arr)
   {
     var j,temp;
     for(i=0;i<arr.length;i++)
@@ -35,8 +53,10 @@
       arr[j]=temp;
     }
   }
-  function makeboard(arr)
+function makeboard(arr)
   {
+    var arr1=arr.slice();
+    arr.push.apply(arr,arr1);
     shuffle(arr);
     var x,i,y;
 
@@ -46,8 +66,8 @@
       x=document.createElement("img");
       x.src="question.png";
       x.id=i;
-      x.addEventListener("click",function(){clicktile(this.id)},false);
-      if(i%8==0)
+      x.addEventListener("click",foo,false);
+      if(i%(c[choice-1])==0)
       {
         y=document.createElement("br");
         board.appendChild(y);
@@ -56,12 +76,10 @@
 
     }
 
-      s=document.createElement("h1");
-      s.textContent="SCORE : 0";
-      s.id="score";
-      document.body.appendChild(s);
-
-
+    s=document.createElement("h1");
+    s.textContent="SCORE : 0";
+    s.id="score";
+    document.body.appendChild(s);
 
     var countDownDate = new Date().getTime();
     countDownDate+=(5*60*1000);
@@ -78,32 +96,43 @@
         var p=document.getElementById("score");
         ass.innerHTML="";
         s.textContent="";
-        makeboard(arr);
+        menu();
     }
     }, 1000);
   }
-var count=0;
-var one,two;
-var prev=0;
+
 
 function score1()
-  { if(scr==32)
+{ if(scr==((c[choice-1]*c[choice-1])/2))
     {
-      alert("YOU WIN!!!!!");
-        var ass=document.getElementById("board");
-        var p=document.getElementById("score");
-        ass.innerHTML="";
-        p.innerHTML="";
-        makeboard(arr);
+        setTimeout(function(){alert("You WIn");},1000);
+        // alert("You Win!!!");
+
+        setTimeout(function(){
+          var ass=document.getElementById("board");
+          var p=document.getElementById("score");
+          ass.innerHTML="";
+          p.innerHTML="";
+          menu();},1000);
     }
 }
-  function clicktile(x)
-  {
-    //console.log(x);
+
+function flip(x)
+{
+  var q=document.getElementById(x);
+  q.src=arr[x];
+}
+function foo()
+{
+  clicktile(this.id);
+}
+function clicktile(x)
+{
+
     if(prev!=x)
       count++;
+    flip(x);
     var q=document.getElementById(x);
-
     if(count>2)
       {
         count=1;
@@ -111,13 +140,8 @@ function score1()
         {
           one.src="question.png";
           two.src="question.png";
-        }
-        else {
-          scr+=1;
-          console.log(scr);
-          var s=document.getElementById("score");
-          s.textContent="SCORE : "+(scr);
-          score1();
+          one.addEventListener("click",foo,false);
+          two.addEventListener("click",foo,false);
         }
       }
 
@@ -125,17 +149,24 @@ function score1()
     {
       one=document.getElementById(x);
       if(one!=null)
-      one.removeEventListener("click",function(){clicktile(this.id)},false);
+        {one.removeEventListener("click",foo,false);}
     }
     if(count==2)
     {
       two=document.getElementById(x);
       if(two!=null)
-      two.removeEventListener("click",function(){clicktile(this.id)},false);
+        {two.removeEventListener("click",foo,false);console.log(one.src+two.src);}
+      if((one.src==two.src))
+      {
+        scr+=1;
+        console.log("does"+scr);
+        var s=document.getElementById("score");
+        s.textContent="SCORE : "+(scr);
+        score1();
+      }
     }
-      q.src=arr[x];
-      prev=q.id;
+    prev=q.id;
   }
-makeboard(arr);
+menu();
 
 </script>
