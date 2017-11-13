@@ -23,6 +23,7 @@
   var arr1=arr.slice();
   arr.push.apply(arr,arr1);
   var s;
+  var scr=0;
   function shuffle(arr)
   {
     var j,temp;
@@ -37,7 +38,8 @@
   function makeboard(arr)
   {
     shuffle(arr);
-    var x,i,y,score=0;;
+    var x,i,y;
+
     var board=document.getElementById("board");
     for(i=0;i<arr.length;i++)
     {
@@ -71,7 +73,7 @@
     document.getElementById("demo").innerHTML = minutes + "m " + seconds + "s ";
     if (distance < 0) {
         clearInterval(x);
-        alert("Your Score is: "+score+"EXPIRED");
+        alert("Your Score is: "+scr+"EXPIRED");
         var ass=document.getElementById("board");
         var p=document.getElementById("score");
         ass.innerHTML="";
@@ -85,7 +87,7 @@ var one,two;
 var prev=0;
 
 function score1()
-  { if(score==32)
+  { if(scr==2)
     {
       alert("YOU WIN!!!!!");
         var ass=document.getElementById("board");
@@ -111,9 +113,10 @@ function score1()
           two.src="question.png";
         }
         else {
-          score+=1;
+          scr+=1;
+          console.log(scr);
           var s=document.getElementById("score");
-          s.textContent="SCORE : "+score;
+          s.textContent="SCORE : "+(scr);
           score1();
         }
       }
