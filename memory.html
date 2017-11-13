@@ -1,0 +1,138 @@
+<html>
+<head>
+  <style>
+  img{
+    height:80px;
+    width:80px;
+    padding:2.5px;
+  };
+  </style>
+</head>
+<body>
+  <center>
+  <div id="board">
+  </div>
+  <h1 id="demo">
+  </h1>
+</center>
+</body>
+</html>
+
+<script>
+  var arr=["snapchat.png","facebook.png","twitter.png","linkedin.png","chrome.png","safari.jpeg","opera.png","firefox.jpeg","accenture.jpeg","deloitte.png","microsoft.jpg","apple.png","kpmg.png","skype.png","youtube.png","ibm.png","quora.png","intel.jpeg","blender.jpeg","adobe.jpeg","photoshop.png","nevidia.jpeg","google.jpeg","flipkart.jpeg","amazon.png","googleplus.png","tcs.png","ubuntu.jpeg","mckinsey.png","infosys.png","ie.png","apache.png"];
+  var arr1=arr.slice();
+  arr.push.apply(arr,arr1);
+  var s;
+  function shuffle(arr)
+  {
+    var j,temp;
+    for(i=0;i<arr.length;i++)
+    {
+      j=Math.ceil(Math.random()*(arr.length-1));
+      temp=arr[i];
+      arr[i]=arr[j];
+      arr[j]=temp;
+    }
+  }
+  function makeboard(arr)
+  {
+    shuffle(arr);
+    var x,i,y,score=0;;
+    var board=document.getElementById("board");
+    for(i=0;i<arr.length;i++)
+    {
+      x=document.createElement("img");
+      x.src="question.png";
+      x.id=i;
+      x.addEventListener("click",function(){clicktile(this.id)},false);
+      if(i%8==0)
+      {
+        y=document.createElement("br");
+        board.appendChild(y);
+      }
+      board.appendChild(x);
+
+    }
+
+      s=document.createElement("h1");
+      s.textContent="SCORE : 0";
+      s.id="score";
+      document.body.appendChild(s);
+
+
+
+    var countDownDate = new Date().getTime();
+    countDownDate+=(5*60*1000);
+    var x = setInterval(function() {
+    var now = new Date().getTime();
+    var distance = countDownDate - now;
+    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+    document.getElementById("demo").innerHTML = minutes + "m " + seconds + "s ";
+    if (distance < 0) {
+        clearInterval(x);
+        alert("Your Score is: "+score+"EXPIRED");
+        var ass=document.getElementById("board");
+        var p=document.getElementById("score");
+        ass.innerHTML="";
+        s.textContent="";
+        makeboard(arr);
+    }
+    }, 1000);
+  }
+var count=0;
+var one,two;
+var prev=0;
+
+function score1()
+  { if(score==32)
+    {
+      alert("YOU WIN!!!!!");
+        var ass=document.getElementById("board");
+        var p=document.getElementById("score");
+        ass.innerHTML="";
+        p.innerHTML="";
+        makeboard(arr);
+    }
+}
+  function clicktile(x)
+  {
+    //console.log(x);
+    if(prev!=x)
+      count++;
+    var q=document.getElementById(x);
+
+    if(count>2)
+      {
+        count=1;
+        if(one.src!=two.src)
+        {
+          one.src="question.png";
+          two.src="question.png";
+        }
+        else {
+          score+=1;
+          var s=document.getElementById("score");
+          s.textContent="SCORE : "+score;
+          score1();
+        }
+      }
+
+    if(count==1)
+    {
+      one=document.getElementById(x);
+      if(one!=null)
+      one.removeEventListener("click",function(){clicktile(this.id)},false);
+    }
+    if(count==2)
+    {
+      two=document.getElementById(x);
+      if(two!=null)
+      two.removeEventListener("click",function(){clicktile(this.id)},false);
+    }
+      q.src=arr[x];
+      prev=q.id;
+  }
+makeboard(arr);
+
+</script>
