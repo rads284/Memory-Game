@@ -29,19 +29,19 @@ function menu() {
   choice=(prompt("Choose Game Difficulty! \n 1. Beginner \n 2. Intermediate \n 3. Hard"));
   switch (choice) {
     case '1':
-      arr=arr.slice(0,8);
+      arr=arr.slice(0,8);makeboard(arr);
       break;
     case '2':
-      arr=arr.slice(0,18);
+      arr=arr.slice(0,18);makeboard(arr);
       break;
-    case '3':
+    case '3':makeboard(arr);
       break;
     default:
       choice=-1;
       alert("Invalid Input");
       menu();
   }
-  makeboard(arr);
+  
 }
 function shuffle(arr)
   {
